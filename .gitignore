@@ -2,3 +2,4 @@ a.out
 build/
 .vscode/
 Platform/Windows/helloengine_win.exe
+Platform/Linux/helloengine_xcb
