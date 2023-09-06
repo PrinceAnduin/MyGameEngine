@@ -74,13 +74,20 @@ int main(void) {
         switch (pEvent->response_type & ~0x80)
         {
         case XCB_EXPOSE:
-            break;
+            {
+                xcb_rectangle_t rect = {20, 20, 60, 80};
+                xcb_poly_fill_rectangle(pConn, window, foreground, 1, &rect);
+                xcb_flush(pConn);
+            }
+                break;
         case XCB_KEY_PRESS:
             isQuit = 1;
             break;
         }
         free(pEvent);
     }
+    
+    xcb_disconnect(pConn);
     
     return 0;
     
