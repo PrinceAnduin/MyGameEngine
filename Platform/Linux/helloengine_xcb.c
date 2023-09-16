@@ -71,6 +71,7 @@ int main(void) {
 
     while ((pEvent = xcb_wait_for_event(pConn)) && !isQuit)
     {
+        // change the 8th bit of response to 0
         switch (pEvent->response_type & ~0x80)
         {
         case XCB_EXPOSE:
