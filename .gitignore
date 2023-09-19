@@ -4,4 +4,3 @@ build/
 Platform/Windows/helloengine_win.exe
 Platform/Linux/helloengine_xcb
 Platform/Windows/helloengine_d2d.exe
-Platform/Windows/helloengine_d2d.obj

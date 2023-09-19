@@ -143,13 +143,15 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
     switch(message)
     {
         case WM_CREATE:
+        {
             if (FAILED(D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &pFactory)))
             {
                 result = -1;
                 return result;
             }
-            wasHandled = true;
-        result = 0;
+            result = 0;
+        }
+        wasHandled = true;
         break;
         case WM_PAINT:
         {
@@ -171,7 +173,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
                 int width = static_cast<int>(rtSize.width);
                 int height = static_cast<int>(rtSize.height);
 
-                for (int x = 0; x < width; x = 10)
+                for (int x = 0; x < width; x += 10)
                 {
                     pRenderTarget->DrawLine(
                         D2D1::Point2F(static_cast<FLOAT>(x), 0.0f),
@@ -181,7 +183,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
                         );
                 }
 
-                for (int y = 0; y < height; y = 10)
+                for (int y = 0; y < height; y += 10)
                 {
                     pRenderTarget->DrawLine(
                         D2D1::Point2F(0.0f, static_cast<FLOAT>(y)),
@@ -225,35 +227,35 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
         wasHandled = true;
         break;
 
-       case WM_SIZE:
-               if (pRenderTarget != nullptr)
-               {
-                       RECT rc;
-                       GetClientRect(hWnd, &rc);
+        case WM_SIZE:
+            if (pRenderTarget != nullptr)
+            {
+                RECT rc;
+                GetClientRect(hWnd, &rc);
 
-                       D2D1_SIZE_U size = D2D1::SizeU(rc.right - rc.left, rc.bottom - rc.top);
+                D2D1_SIZE_U size = D2D1::SizeU(rc.right - rc.left, rc.bottom - rc.top);
 
-                       pRenderTarget->Resize(size);
-               }
-               wasHandled = true;
+                pRenderTarget->Resize(size);
+            }
+        wasHandled = true;
         break;
 
        case WM_DESTROY:
-               DiscardGraphicsResources();
-               if (pFactory) {pFactory->Release(); pFactory=nullptr; }
-               PostQuitMessage(0);
-        result = 0;
-               wasHandled = true;
+            DiscardGraphicsResources();
+            if (pFactory) {pFactory->Release(); pFactory=nullptr; }
+            PostQuitMessage(0);
+            result = 0;
+        wasHandled = true;
         break;
 
-    case WM_DISPLAYCHANGE:
-        InvalidateRect(hWnd, nullptr, false);
+        case WM_DISPLAYCHANGE:
+            InvalidateRect(hWnd, nullptr, false);
         wasHandled = true;
         break;
     }
 
     // Handle any messages the switch statement didn't
     // return DefWindowProc (hWnd, message, wParam, lParam);
-        if (!wasHandled) { result = DefWindowProc (hWnd, message, wParam, lParam); }
+    if (!wasHandled) { result = DefWindowProc (hWnd, message, wParam, lParam); }
     return result;
 }
